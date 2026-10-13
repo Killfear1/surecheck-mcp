@@ -1,0 +1,23 @@
+name: Publish reviewed SureCheck 0.1.1
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+permissions:
+  contents: read
+jobs:
+  publish:
+    if: github.repository == 'Killfear1/surecheck-mcp' && (github.event_name == 'workflow_dispatch' || github.event.release.tag_name == '0.1.1')
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download the reviewed wheel
+        run: |
+          mkdir -p dist
+          curl --fail --show-error --location --proto '=https' --proto-redir '=https' 'https://drive.usercontent.google.com/uc?id=16uj2tt5WAPm4R21yBXZZwN3wiGBmUJ1g&export=download' -o dist/surecheck_mcp-0.1.1-py3-none-any.whl
+          echo 'e4e1cc15d98dec345b8677e004ce1618ec8270e82e5a1f99d94b54a052eaaf44  dist/surecheck_mcp-0.1.1-py3-none-any.whl' | sha256sum --check --strict
+      - name: Publish with PyPI Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
