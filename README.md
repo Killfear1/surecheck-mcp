@@ -1,5 +1,5 @@
-# SureCheck MCP 0.1.1
-Local stdio MCP server; Python 3.8+. No third-party runtime dependencies.
+# SureCheck MCP server: phone number validation and email validation tools for AI agents (0.1.1)
+Phone checks return numbering-plan metadata; email checks are syntax/DNS only. Local stdio MCP server; Python 3.8+. No third-party runtime dependencies.
 
 Download the wheel from the install page, then:
 python3 -m venv .venv
