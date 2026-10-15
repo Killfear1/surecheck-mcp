@@ -17,3 +17,28 @@ Results preserve null/unknown/error states. Phone checks are numbering-plan meta
 API keys are invitation-only. Current free beta: 100 checks/key; billing disabled. Host can sleep; a first request can time out. Retry after it wakes.
 The local wrapper stores no inputs or keys. It transmits the key and requested phone/email to SureCheck over HTTPS. DNS checks send the domain to DNS infrastructure. The host/client can keep logs according to their own settings; do not submit sensitive personal data without permission. Inputs are not saved to the API application database or access logs; account/key hashes and usage accounting are stored. Use synthetic data for demos.
 This release fixes the suspended default host in 0.1.0 and adds install packaging. The API deployment and earlier reviewed archives are unchanged.
+
+## Container (stdio)
+
+A Dockerfile is included for clients that can run local stdio containers:
+
+```sh
+docker build -t surecheck-mcp .
+docker run --rm -i -e SURECHECK_API_KEY surecheck-mcp
+```
+
+Set SURECHECK_API_KEY in the calling environment before running. Do not put the
+key in the Dockerfile or image. The container runs as an unprivileged user.
+Container build and execution are not yet verified. Including a Dockerfile does
+not establish compatibility with Glama's deployment service. No remote endpoint
+or HTTP transport is provided by this container.
+
+## Tests
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+The offline suite checks malformed input recovery, argument checks, protocol
+negotiation, HTTPS-only configuration, blocked redirects and error handling.
+API responses are mocked. The suite does not verify live paid provisioning.
