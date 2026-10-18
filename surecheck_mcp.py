@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""GTM Agent One local MCP server (stdio). No key or input is stored.
+"""Killfear One local MCP server (stdio). No key or input is stored.
 
 Reads SURECHECK_API_KEY (required) and SURECHECK_BASE_URL (default
 https://surecheck-live-040.onrender.com). Exposes check_phone/check_email and
@@ -17,13 +17,13 @@ KEY = os.environ.get('SURECHECK_API_KEY', '')
 
 TOOLS = [
     {'name': 'check_phone',
-     'description': 'Validate a phone number with GTM Agent One numbering-plan metadata. Not live carrier, reachability, or ownership.',
+     'description': 'Validate a phone number with Killfear One numbering-plan metadata. Not live carrier, reachability, or ownership.',
      'inputSchema': {'type': 'object', 'properties': {
          'phone_number': {'type': 'string', 'description': 'Number, ideally E.164 (+...)', 'maxLength': 64},
          'country_code': {'type': 'string', 'description': 'Optional 2-letter region', 'maxLength': 2}},
          'required': ['phone_number'], 'additionalProperties': False}},
     {'name': 'check_email',
-     'description': 'Validate an email with GTM Agent One syntax and DNS checks. Does not prove mailbox existence or delivery.',
+     'description': 'Validate an email with Killfear One syntax and DNS checks. Does not prove mailbox existence or delivery.',
      'inputSchema': {'type': 'object', 'properties': {
          'email': {'type': 'string', 'maxLength': 320}},
          'required': ['email'], 'additionalProperties': False}},
