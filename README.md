@@ -1,4 +1,4 @@
-# SureCheck MCP server: phone number validation and email validation tools for AI agents (0.1.1)
+# GTM Agent One MCP server: phone number validation and email validation tools for AI agents (0.1.1)
 Phone checks return numbering-plan metadata; email checks are syntax/DNS only. Local stdio MCP server; Python 3.8+. No third-party runtime dependencies.
 
 Download the wheel from the install page, then:
@@ -15,7 +15,7 @@ Supported transport: stdio only. No remote MCP endpoint, SSE, Streamable HTTP, O
 Tools: check_phone(phone_number, country_code?), check_email(email).
 Results preserve null/unknown/error states. Phone checks are numbering-plan metadata only, not live carrier, HLR, reachability or ownership. Email checks are syntax/DNS only, not mailbox, catch-all or delivery verification.
 API keys are invitation-only. Current free beta: 100 checks/key; billing disabled. Host can sleep; a first request can time out. Retry after it wakes.
-The local wrapper stores no inputs or keys. It transmits the key and requested phone/email to SureCheck over HTTPS. DNS checks send the domain to DNS infrastructure. The host/client can keep logs according to their own settings; do not submit sensitive personal data without permission. Inputs are not saved to the API application database or access logs; account/key hashes and usage accounting are stored. Use synthetic data for demos.
+The local wrapper stores no inputs or keys. It transmits the key and requested phone/email to GTM Agent One over HTTPS. DNS checks send the domain to DNS infrastructure. The host/client can keep logs according to their own settings; do not submit sensitive personal data without permission. Inputs are not saved to the API application database or access logs; account/key hashes and usage accounting are stored. Use synthetic data for demos.
 This release fixes the suspended default host in 0.1.0 and adds install packaging. The API deployment and earlier reviewed archives are unchanged.
 
 ## Container (stdio)
