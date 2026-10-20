@@ -12,7 +12,9 @@ Default SURECHECK_BASE_URL: https://surecheck-live-040.onrender.com
 Alternatively open surecheck-mcp-0.1.1.mcpb in an MCPB-capable client and enter the API key in its secure settings. Python must be installed as python3 on macOS/Linux or python on Windows. Bundle is unsigned. Desktop GUI install has not been tested on macOS/Windows; manifest validation and extracted-bundle subprocess launch have been tested on Linux.
 
 Supported transport: stdio only. No remote MCP endpoint, SSE, Streamable HTTP, OAuth, PyPI or npm publication. Protocol negotiation: 2024-11-05, 2025-03-26, 2025-06-18.
-Tools: check_phone(phone_number, country_code?), check_email(email).
+Tools: check_phone(phone_number, country_code?), check_email(email), run_business_agent(csv, offer, sender, icp?, agents?, page_name?, page_points?).
+run_business_agent calls the Killfear One business agent: up to 10 leads per call, 1 credit per lead (+1 if page_builder is selected). It returns review-only drafts and sequences and an optional HTML landing page draft. Nothing is sent and nothing is stored by the wrapper.
+Version 0.2.0 (this source) adds run_business_agent. The 0.1.1 wheel and bundle linked above were not rebuilt, so they still have only the two check tools.
 Results preserve null/unknown/error states. Phone checks are numbering-plan metadata only, not live carrier, HLR, reachability or ownership. Email checks are syntax/DNS only, not mailbox, catch-all or delivery verification.
 API keys are invitation-only. Current free beta: 100 checks/key; billing disabled. Host can sleep; a first request can time out. Retry after it wakes.
 The local wrapper stores no inputs or keys. It transmits the key and requested phone/email to Killfear One over HTTPS. DNS checks send the domain to DNS infrastructure. The host/client can keep logs according to their own settings; do not submit sensitive personal data without permission. Inputs are not saved to the API application database or access logs; account/key hashes and usage accounting are stored. Use synthetic data for demos.

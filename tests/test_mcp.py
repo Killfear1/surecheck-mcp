@@ -28,7 +28,7 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(self.request('ping', mid=0)['id'], 0)
 
     def test_tools(self):
-        self.assertEqual(len(self.request('tools/list')['result']['tools']), 2)
+        self.assertEqual([x['name'] for x in self.request('tools/list')['result']['tools']], ['check_phone', 'check_email', 'run_business_agent'])
 
     def test_invalid_requests(self):
         for msg in ([], None, 1, '', {'method': 'ping'}, {'jsonrpc': '2.0', 'method': 4}, {'jsonrpc': '2.0', 'method': 'ping', 'id': []}, {'jsonrpc': '2.0', 'method': 'ping', 'id': True}):
