@@ -16,7 +16,7 @@ Tools: check_phone(phone_number, country_code?), check_email(email), run_busines
 run_business_agent calls the Killfear One business agent: up to 10 leads per call, 1 credit per lead (+1 if page_builder is selected). It returns review-only drafts and sequences and an optional HTML landing page draft. Nothing is sent and nothing is stored by the wrapper.
 Version 0.2.0 adds run_business_agent. The wheel is built; the .mcpb bundle was not rebuilt and stays at 0.1.1 (2 tools).
 Results preserve null/unknown/error states. Phone checks are numbering-plan metadata only, not live carrier, HLR, reachability or ownership. Email checks are syntax/DNS only, not mailbox, catch-all or delivery verification.
-API keys are invitation-only. Free beta: 100 checks per key. Paid plans: $29/mo for 10,000 checks, $79/mo for 50,000. Host can sleep; a first request can time out. Retry after it wakes.
+New API keys require a paid plan: $29/mo for 10,000 checks, $79/mo for 50,000. Keys from the earlier free beta keep their remaining checks. Host can sleep; a first request can time out. Retry after it wakes.
 The local wrapper stores no inputs or keys. It transmits the key and requested phone/email to Killfear One over HTTPS. DNS checks send the domain to DNS infrastructure. The host/client can keep logs according to their own settings; do not submit sensitive personal data without permission. Inputs are not saved to the API application database or access logs; account/key hashes and usage accounting are stored. Use synthetic data for demos.
 0.2.0 adds the run_business_agent tool. Drafts, sequences and pages it returns are for human review; the server sends no email, SMS or posts.
 
