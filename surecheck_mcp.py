@@ -2,7 +2,7 @@
 """Killfear One local MCP server (stdio). No key or input is stored.
 
 Reads SURECHECK_API_KEY (required) and SURECHECK_BASE_URL (default
-https://surecheck-live-040.onrender.com). Exposes check_phone, check_email and run_business_agent and
+https://surecheck-live-040.onrender.com). Exposes check_phone, check_email, run_business_agent and run_aeo_agent and
 returns the API's structured result verbatim, including null/unknown states.
 """
 import json
@@ -42,6 +42,13 @@ TOOLS = [
          'page_points': {'type': 'array', 'items': {'type': 'string', 'maxLength': 120}, 'maxItems': 5,
                          'description': 'Up to 5 short bullet points for the landing page draft'}},
          'required': ['csv', 'offer', 'sender'], 'additionalProperties': False}},
+    {'name': 'run_aeo_agent',
+     'description': 'Run the Killfear One AEO/SEO agent on a business website. Reads up to 3 public pages on one site plus robots.txt, sitemap.xml and llms.txt, runs rule-based SEO and AEO checks, and returns two scores, a prioritized fix list and review-only drafts (organization JSON-LD, FAQ JSON-LD skeleton, llms.txt, robots.txt snippet). Does not measure rankings or AI citations and changes nothing on the site. 3 credits per audit.',
+     'inputSchema': {'type': 'object', 'properties': {
+         'url': {'type': 'string', 'description': 'Public https or http address of the site or page to audit', 'maxLength': 300},
+         'extra_urls': {'type': 'array', 'items': {'type': 'string', 'maxLength': 300}, 'maxItems': 2,
+                        'description': 'Optional up to 2 more pages on the same host'}},
+         'required': ['url'], 'additionalProperties': False}},
 ]
 
 def note(msg):
@@ -131,20 +138,22 @@ def handle(msg):
         return {'jsonrpc': '2.0', 'id': mid, 'result': {
             'protocolVersion': requested if requested in ('2024-11-05', '2025-03-26', '2025-06-18') else '2024-11-05',
             'capabilities': {'tools': {}},
-            'serverInfo': {'name': 'surecheck', 'version': '0.2.0'}}}
+            'serverInfo': {'name': 'surecheck', 'version': '0.3.0'}}}
     if method == 'ping':
         return {'jsonrpc': '2.0', 'id': mid, 'result': {}}
     if method == 'tools/list':
         return {'jsonrpc': '2.0', 'id': mid, 'result': {'tools': TOOLS}}
     if method == 'tools/call':
         name = params.get('name')
-        if name not in ('check_phone', 'check_email', 'run_business_agent'):
+        if name not in ('check_phone', 'check_email', 'run_business_agent', 'run_aeo_agent'):
             return rpc_error(mid, -32602, 'Unknown tool')
         args = params.get('arguments', {})
         if not validate_args(name, args):
             return rpc_error(mid, -32602, 'Invalid tool arguments')
         if name == 'run_business_agent':
             return {'jsonrpc': '2.0', 'id': mid, 'result': text_result(call_api('/api/v1/agent/business', args, timeout=120))}
+        if name == 'run_aeo_agent':
+            return {'jsonrpc': '2.0', 'id': mid, 'result': text_result(call_api('/api/v1/agent/aeo', args, timeout=90))}
         path = '/api/v1/phone' if name == 'check_phone' else '/api/v1/email'
         return {'jsonrpc': '2.0', 'id': mid, 'result': text_result(call_api(path, args))}
     return rpc_error(mid, -32601, 'Method not found')
